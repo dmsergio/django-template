@@ -33,3 +33,23 @@
     python {DJANGO_PROJECT_NAME}/manage.py migrate
     python {DJANGO_PROJECT_NAME}/manage.py runserver
     ```
+
+### Build and run the project inside Docker containers
+
+1. Create an environment file.
+
+    ```shell
+    cp .env.dist .env
+    ```
+
+2. Build the image.
+
+    ```shell
+    docker compose build --pull
+    ```
+
+3. Run the both services, one for Django app and another for Postgres data base.
+
+    ```shell
+    docker compose up -d
+    ```
