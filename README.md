@@ -9,6 +9,7 @@
 - [ ] Add tests with [pytest](https://docs.pytest.org/en/7.2.x/).
 - [ ] Integrate the [django-toolbar](https://django-debug-toolbar.readthedocs.io/en/latest/) package to debug requests/responses.
 - [ ] Implements [Celery](https://docs.celeryq.dev/en/stable/).
+- [ ] Python tools to ensure both quality code and security code.
 - [ ] Continuos Integration (CI).
 
 ### Create Django project
