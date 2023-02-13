@@ -1,3 +1,16 @@
+## Django template
+
+- [ ] Create a [Django](https://www.djangoproject.com/) project.
+- [ ] Build and run the project with [Docker compose](https://docs.docker.com/compose/).
+- [ ] Set up logs inside Django project.
+- [ ] Create a example app in order to interact with it via APIRest and [DRF](https://www.django-rest-framework.org/).
+- [ ] Authentication with [JWT](https://django-rest-framework-simplejwt.readthedocs.io/en/latest/).
+- [ ] Document the APIRest with [Swagger](https://swagger.io/).
+- [ ] Add tests with [pytest](https://docs.pytest.org/en/7.2.x/).
+- [ ] Integrate the [django-toolbar](https://django-debug-toolbar.readthedocs.io/en/latest/) package to debug requests/responses.
+- [ ] Implements [Celery](https://docs.celeryq.dev/en/stable/).
+- [ ] Continuos Integration (CI).
+
 ### Create Django project
 
 1. Install Python (recommended use the latest version available).
