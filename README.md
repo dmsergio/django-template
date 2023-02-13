@@ -1,7 +1,7 @@
 ## Django template
 
-- [ ] Create a [Django](https://www.djangoproject.com/) project.
-- [ ] Build and run the project with [Docker compose](https://docs.docker.com/compose/).
+- [x] Create a [Django](https://www.djangoproject.com/) project.
+- [x] Build and run the project with [Docker compose](https://docs.docker.com/compose/).
 - [ ] Set up logs inside Django project.
 - [ ] Create a example app in order to interact with it via APIRest and [DRF](https://www.django-rest-framework.org/).
 - [ ] Authentication with [JWT](https://django-rest-framework-simplejwt.readthedocs.io/en/latest/).
