@@ -10,8 +10,11 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
+import logging.config
 import os
 from pathlib import Path
+
+from django.utils.log import DEFAULT_LOGGING
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -27,7 +30,6 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 DEBUG = int(os.getenv("DEBUG", 0))
 
 ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS").split(" ")  # type: ignore
-
 
 # Application definition
 
@@ -127,4 +129,43 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+LOG_FORMAT = "%(asctime)s - [%(levelname)s] - %(module)s.%(funcName)s: %(message)s"
+
+LOGGING_CONFIG = None
+
 LOGLEVEL = os.getenv("LOGLEVEL", "info").upper()
+
+logging.config.dictConfig(
+    {
+        "version": 1,
+        "disable_existing_loggers": False,
+        "formatters": {
+            "verbose": {
+                "format": LOG_FORMAT,
+            },
+            "simple": {
+                "format": "[%(levelname)s] %(message)s",
+            },
+        },
+        "handlers": {
+            "console": {
+                "class": "logging.StreamHandler",
+                "formatter": "verbose",
+            },
+            "file": {
+                "class": "logging.handlers.RotatingFileHandler",
+                "filename": BASE_DIR / "logs/app.log",
+                "maxBytes": 1024 * 1024 * 5,  # 5 MB
+                "backupCount": 10,
+                "formatter": "verbose",
+            },
+        },
+        "loggers": {
+            "django": {
+                "handlers": ["console", "file"],
+                # "propagate": True,
+                "level": LOGLEVEL,
+            },
+        },
+    }
+)
