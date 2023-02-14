@@ -1,43 +1,73 @@
 # official base image
-FROM python:3.11-slim-bullseye as python
+ARG PYTHON_VERSION=3.11-slim-bullseye
 
-# set environment variables
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
+FROM python:${PYTHON_VERSION} as python
+
+
+###############
+# Build stage #
+###############
+FROM python as build-stage
 
 # system dependencies
-RUN apt-get update \
-    && apt-get -y dist-upgrade \
+RUN apt-get update && apt-get -y dist-upgrade && apt-get install -y \
     # dependencies for building Python packages
-    && apt-get install -y build-essential \
+    build-essential \
     # psycopg2 dependencies
-    && apt-get install -y libpq-dev \
+    libpq-dev
+
+# Copy Python dependencies
+COPY requirements .
+
+# Create Python dependency and sub-dependency wheels
+RUN pip wheel --wheel-dir /usr/src/app/wheels -r development.txt
+
+
+#############
+# Run stage #
+#############
+FROM python as run-stage
+
+# Set environment variables
+ENV PYTHONUNBUFFERED 1
+ENV PYTHONDONTWRITEBYTECODE 1
+
+# System dependencies
+RUN apt-get update && apt-get -y dist-upgrade && apt-get install -y \
+    # Dependencies for building Python packages
+    build-essential \
     # translations dependencies
-    && apt-get install -y gettext \
-    # additional dependencies
-    && apt-get install -y procps telnet netcat \
+    gettext \
+    # psycopg2 dependencies
+    libpq-dev \
+    # Check db status
+    netcat \
+    # Monitor and halt system processes
+    procps \
+    # Debug Celery tasks
+    telnet \
     # cleaning up unused files
     && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
     && rm -rf /var/lib/apt/lists/*
 
-# Python dependencies
-RUN pip install --upgrade pip
-COPY ./requirements.txt /requirements.txt
-COPY ./requirements-dev.txt /requirements-dev.txt
-RUN pip install -r requirements-dev.txt
+# Copy python dependency wheels from build-stage
+COPY --from=build-stage /usr/src/app/wheels  /wheels/
 
-# django entrypoint.sh
+# Use wheels to install python dependencies
+RUN pip install --no-cache-dir --no-index --find-links=/wheels/ /wheels/* \
+	&& rm -rf /wheels/
+
+# Django entrypoint.sh
 COPY ./compose/local/django/entrypoint /entrypoint
 RUN sed -i 's/\r$//g' /entrypoint
 RUN chmod +x /entrypoint
 
-# django start
+# Django start
 COPY ./compose/local/django/start /start
 RUN sed -i 's/\r$//g' /start
 RUN chmod +x /start
 
 WORKDIR /app
 
-# run entrypoint.sh
+# Run entrypoint.sh
 ENTRYPOINT [ "/entrypoint" ]
-
