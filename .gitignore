@@ -17,3 +17,6 @@ ENV/
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+
+### Project files
+app/logs/*log*

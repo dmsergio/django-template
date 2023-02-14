@@ -129,7 +129,7 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-LOG_FORMAT = "%(asctime)s - [%(levelname)s] - %(module)s.%(funcName)s: %(message)s"
+LOG_FORMAT = "{asctime} - [{levelname}] - {module}.{funcName}: {message}"
 
 LOGGING_CONFIG = None
 
@@ -142,9 +142,12 @@ logging.config.dictConfig(
         "formatters": {
             "verbose": {
                 "format": LOG_FORMAT,
+                "datefmt": "%Y-%m-%d %H:%M:%S",
+                "style": "{",
             },
             "simple": {
-                "format": "[%(levelname)s] %(message)s",
+                "format": "[{levelname}] {message}",
+                "style": "{",
             },
         },
         "handlers": {
@@ -153,17 +156,16 @@ logging.config.dictConfig(
                 "formatter": "verbose",
             },
             "file": {
-                "class": "logging.handlers.RotatingFileHandler",
+                "class": "logging.handlers.TimedRotatingFileHandler",
                 "filename": BASE_DIR / "logs/app.log",
-                "maxBytes": 1024 * 1024 * 5,  # 5 MB
-                "backupCount": 10,
+                "when": "D",
+                "backupCount": 14,  # store last two weeks
                 "formatter": "verbose",
             },
         },
         "loggers": {
             "django": {
                 "handlers": ["console", "file"],
-                # "propagate": True,
                 "level": LOGLEVEL,
             },
         },
