@@ -28,7 +28,7 @@ class Product(BaseModel):
 
     class Meta:
         db_table = "product"
-        app_label = "product"
+        app_label = "products"
         verbose_name = _("Product")
         verbose_name_plural = _("Products")
         constraints = [

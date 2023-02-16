@@ -10,13 +10,14 @@ FROM python:${PYTHON_VERSION} as python
 FROM python as build-stage
 
 # system dependencies
-RUN apt-get update && apt-get -y dist-upgrade && apt-get install -y \
+RUN apt-get update && apt-get install -y \
     # dependencies for building Python packages
     build-essential \
     # psycopg2 dependencies
     libpq-dev
 
 # Copy Python dependencies
+RUN pip install --no-cache-dir --upgrade pip==23.0
 COPY requirements .
 
 # Create Python dependency and sub-dependency wheels
@@ -57,15 +58,14 @@ COPY --from=build-stage /usr/src/app/wheels  /wheels/
 RUN pip install --no-cache-dir --no-index --find-links=/wheels/ /wheels/* \
 	&& rm -rf /wheels/
 
-# Django entrypoint.sh
+# Copy entrypoint and scripts
 COPY ./compose/local/django/entrypoint /entrypoint
-RUN sed -i 's/\r$//g' /entrypoint
-RUN chmod +x /entrypoint
-
-# Django start
 COPY ./compose/local/django/start /start
-RUN sed -i 's/\r$//g' /start
-RUN chmod +x /start
+
+RUN sed -i 's/\r$//g' /entrypoint \
+    && sed -i 's/\r$//g' /start \
+    && chmod +x /entrypoint \
+    && chmod +x /start
 
 WORKDIR /app
 

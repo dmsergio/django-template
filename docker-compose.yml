@@ -3,10 +3,11 @@ version: '3.8'
 services:
 
   web:
+    image: django.template.web.dev:${TAG_VERSION}
     build:
       context: app/
       dockerfile: ./compose/local/django/Dockerfile
-    image: django_template_web
+    container_name: djangotemplate.web
     command: /start
     volumes:
       - ./app:/app
@@ -19,6 +20,7 @@ services:
 
   db:
     image: postgres:15-alpine
+    container_name: djangotemplate.db
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     environment:
