@@ -3,7 +3,8 @@
 - [x] Create a [Django](https://www.djangoproject.com/) project.
 - [x] Build and run the project with [Docker compose](https://docs.docker.com/compose/).
 - [x] Set up logs inside Django project.
-- [ ] Create a example app in order to interact with it via APIRest and [DRF](https://www.django-rest-framework.org/).
+- [x] Create an example app with a few models.
+- [ ] Interact with the models via APIRest and [DRF](https://www.django-rest-framework.org/).
 - [ ] Authentication with [JWT](https://django-rest-framework-simplejwt.readthedocs.io/en/latest/).
 - [ ] Document the APIRest with [Swagger](https://swagger.io/).
 - [ ] Add tests with [pytest](https://docs.pytest.org/en/7.2.x/).
