@@ -25,6 +25,15 @@ class Product(BaseModel):
         choices=ProductTypeChoices.choices,
         default=ProductTypeChoices.PRODUCT,
     )
+    category = models.ForeignKey(
+        to="ProductCategory",
+        on_delete=models.SET_NULL,
+        verbose_name=_("Category"),
+        db_column="category_id",
+        related_name="products",
+        null=True,
+        blank=True,
+    )
 
     class Meta:
         db_table = "product"
@@ -43,3 +52,22 @@ class Product(BaseModel):
 
     def __repr__(self) -> str:
         return f"<{self.__class__.__name__}: {self.sku} ({self.pk})>"
+
+
+class ProductCategory(BaseModel):
+    name = models.CharField(
+        max_length=255,
+        verbose_name=_("Name"),
+    )
+
+    class Meta:
+        db_table = "product_category"
+        app_label = "products"
+        verbose_name = _("Product Category")
+        verbose_name_plural = _("Products Categories")
+        constraints = [
+            models.UniqueConstraint(
+                fields=["name"],
+                name=_("%(app_label)s_%(class)s: name must be unique!"),
+            )
+        ]
