@@ -12,11 +12,13 @@ class ProductAdmin(admin.ModelAdmin):
         "name",
         "type",
         "category",
+        "manufacturer",
     )
     fields = (
         ("sku", "name"),
         "type",
         "category",
+        "manufacturer",
     )
     search_fields = (
         "sku",

@@ -2,6 +2,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 from base.models import BaseModel
+from manufacturers.models import Manufacturer
 
 
 class ProductTypeChoices(models.TextChoices):
@@ -30,6 +31,15 @@ class Product(BaseModel):
         on_delete=models.SET_NULL,
         verbose_name=_("Category"),
         db_column="category_id",
+        related_name="products",
+        null=True,
+        blank=True,
+    )
+    manufacturer = models.ForeignKey(
+        to=Manufacturer,
+        on_delete=models.SET_NULL,
+        verbose_name=_("Manufacturer"),
+        db_column="manufacturer_id",
         related_name="products",
         null=True,
         blank=True,
@@ -71,3 +81,9 @@ class ProductCategory(BaseModel):
                 name=_("%(app_label)s_%(class)s: name must be unique!"),
             )
         ]
+
+    def __str__(self) -> str:
+        return f"{self.name}"
+
+    def __repr__(self) -> str:
+        return f"<{self.__class__.__name__}: {self.name} ({self.pk})>"
