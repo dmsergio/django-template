@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.urls import reverse
 from django.utils.html import format_html
+from django.utils.http import urlencode
 
 from products.models import Product
 from products.models import ProductCategory
@@ -54,7 +55,19 @@ class ProductCategoryAdmin(admin.ModelAdmin):
     list_display = (
         "pk",
         "name",
+        "products_link",
     )
     fields = (
         "name",
     )
+
+    def products_link(self, obj):
+        count = obj.products.count()
+        url = (
+            reverse(f"admin:products_product_changelist")
+            + "?"
+            + urlencode({"category__pk": f"{obj.pk}"})
+        )
+        return format_html('<a href="{}">{} products</a>', url, count)
+
+    products_link.short_description = "Products"
