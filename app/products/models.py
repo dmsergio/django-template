@@ -33,8 +33,8 @@ class Product(BaseModel):
         verbose_name_plural = _("Products")
         constraints = [
             models.UniqueConstraint(
-                fields=["name"],
-                name=_("%(app_label)s_%(class)s: name must be unique!"),
+                fields=["sku"],
+                name=_("%(app_label)s_%(class)s: sku must be unique!"),
             )
         ]
 
