@@ -28,20 +28,22 @@ class ProductAdmin(admin.ModelAdmin):
     )
 
     def category_link(self, obj):
-        url = reverse(
-            f"admin:products_productcategory_change",
-            args=[obj.category.pk],
-        )
-        return format_html('<a href="{}">{}</a>', url, str(obj.category))
+        if obj.category:
+            url = reverse(
+                f"admin:products_productcategory_change",
+                args=[obj.category.pk],
+            )
+            return format_html('<a href="{}">{}</a>', url, str(obj.category))
 
     category_link.short_description = "Category"
 
     def manufacturer_link(self, obj):
-        url = reverse(
-            f"admin:manufacturers_manufacturer_change",
-            args=[obj.manufacturer.pk],
-        )
-        return format_html('<a href="{}">{}</a>', url, str(obj.manufacturer))
+        if obj.manufacturer:
+            url = reverse(
+                f"admin:manufacturers_manufacturer_change",
+                args=[obj.manufacturer.pk],
+            )
+            return format_html('<a href="{}">{}</a>', url, str(obj.manufacturer))
 
     manufacturer_link.short_description = "Manufacturer"
 
