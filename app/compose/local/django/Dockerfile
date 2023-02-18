@@ -34,7 +34,7 @@ ENV PYTHONUNBUFFERED 1
 ENV PYTHONDONTWRITEBYTECODE 1
 
 # System dependencies
-RUN apt-get update && apt-get -y dist-upgrade && apt-get install -y \
+RUN apt-get update && apt-get install -y \
     # Dependencies for building Python packages
     build-essential \
     # translations dependencies
@@ -55,6 +55,7 @@ RUN apt-get update && apt-get -y dist-upgrade && apt-get install -y \
 COPY --from=build-stage /usr/src/app/wheels  /wheels/
 
 # Use wheels to install python dependencies
+RUN pip install --no-cache-dir --upgrade pip==23.0
 RUN pip install --no-cache-dir --no-index --find-links=/wheels/ /wheels/* \
 	&& rm -rf /wheels/
 

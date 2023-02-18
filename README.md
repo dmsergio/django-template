@@ -68,3 +68,30 @@
     ```shell
     docker compose up -d
     ```
+
+### Set up Django Rest Framework
+
+1. Add package to base.txt requirements file.
+
+    ```shell
+    djangorestframework==3.14.0
+    django-filter==22.1  # Optional: Filtering support
+    Markdown==3.4.1  # Optional: Markdown support for the browsable API
+
+    ```
+
+2. Rebuild the Docker image.
+
+    ```shell
+    docker compose up -d --build
+    ```
+
+3. Add *rest_framework* to **INSTALLED_APPS**.
+
+    ```python
+    INSTALLED_APPS = [
+        ...
+        "rest_framework",
+        ...
+    ]
+    ```

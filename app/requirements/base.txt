@@ -1,3 +1,11 @@
+# Django
 Django==4.1.6
-ipython==8.10.0
+ipython==8.10.0  # Better interaction with Django shell
+
+# Django Rest Framework
+djangorestframework==3.14.0
+django-filter==22.1  # Filtering support
+Markdown==3.4.1  # Markdown support for the browsable API
+
+# PostgreSQL database adapter
 psycopg2-binary==2.9.5
