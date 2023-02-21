@@ -1,0 +1,84 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/docker-existing-docker-compose
+{
+	"name": "Django Template - Remote Docker container",
+
+	// Update the 'dockerComposeFile' list if you have more compose files or use different names.
+	// The .devcontainer/docker-compose.yml file contains any overrides you need/want to make.
+	"dockerComposeFile": [
+		"../docker-compose.yml",
+		"docker-compose.yml"
+	],
+
+	// The 'service' property is the name of the service for the container that VS Code should
+	// use. Update this value and .devcontainer/docker-compose.yml to the real service name.
+	"service": "web",
+
+	// The optional 'workspaceFolder' property is the path VS Code should open by default when
+	// connected. This is typically a file mount in .devcontainer/docker-compose.yml
+	"workspaceFolder": "/app",
+
+	// Features to add to the dev container. More info: https://containers.dev/features.
+	"features": {
+		// "ghcr.io/devcontainers-contrib/features/bandit:2": {
+		// 	"version": "1.7.4"
+		// },
+		"ghcr.io/devcontainers-contrib/features/black:2": {
+			"version": "23.1.0"
+		}
+		// "ghcr.io/devcontainers-contrib/features/isort:2": {
+		// 	"version": "5.12.0"
+		// },
+		// "ghcr.io/devcontainers-contrib/features/flake8:2": {
+		// 	"version": "latest"
+		// }
+	},
+
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	// "forwardPorts": [],
+
+	// Uncomment the next line if you want start specific services in your Docker Compose config.
+	// "runServices": [],
+
+	// Uncomment the next line if you want to keep your containers running after VS Code shuts down.
+	// "shutdownAction": "none",
+
+	// Uncomment the next line to run commands after the container is created.
+	// "postCreateCommand": "cat /etc/os-release",
+
+	// Configure tool-specific properties.
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"ms-python.python"
+			],
+			"settings": {
+				"python.defaultInterpreterPath": "/usr/local/bin/python",
+				"python.languageServer": "Default",
+
+				"editor.formatOnSave": true,
+				"python.formatting.provider": "black",
+				// "python.formatting.autopep8Path": "autopep8",
+				"python.formatting.blackPath": "black",
+
+				"python.linting.enabled": true,
+				"python.linting.lintOnSave": false
+				// "python.linting.pylintEnabled": true,
+				// "python.linting.pylintPath": "pylint"
+				// "python.linting.pycodestyleEnabled": true,
+				// "python.linting.pycodestylePath": "pycodestyle",
+				// "python.linting.flake8Enabled": true,
+				// "python.linting.flake8Path": "flake8",
+				// "python.linting.mypyEnabled": true,
+				// "python.linting.mypyPath": "mypy",
+				// "python.linting.pydocstyleEnabled": true,
+				// "python.linting.pydocstylePath": "pydocstyle",
+				// "python.linting.banditEnabled": true,
+				// "python.linting.banditPath": "bandit"
+			}
+		}
+	}
+
+	// Uncomment to connect as an existing user other than the container default. More info: https://aka.ms/dev-containers-non-root.
+	// "remoteUser": "devcontainer"
+}
